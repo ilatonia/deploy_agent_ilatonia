@@ -52,18 +52,16 @@ python3 attendance_checker.py
 PY_STATUS=$?
 cd "$BASE_DIR"
 
-# Check if it was interrupted (python prints "Interrupted - marked X/10")
-# If reports not complete or user pressed Ctrl+C, archive it
 if [[ $PY_STATUS -ne 0 ]] || grep -q "Interrupted" "$PROJECT_NAME/reports/attendance.log" 2>/dev/null || [[ ! -f "$PROJECT_NAME/reports/attendance.log" ]] || [[ $(wc -l < "$PROJECT_NAME/reports/attendance.log" 2>/dev/null) -lt 10 ]]; then
-    # If python already said interrupted and saved partial, we still need to zip for assignment requirement
+    
     if [[ -d "$PROJECT_NAME" ]]; then
-        # Only archive if it was actually interrupted (marked < 10)
+        
         if grep -q "Interrupted" "$PROJECT_NAME/reports/attendance.log" 2>/dev/null || [[ $PY_STATUS -ne 0 ]] || [[ $(grep -c "Mark" "$PROJECT_NAME/reports/attendance.log" 2>/dev/null) -lt 10 && -f "$PROJECT_NAME/reports/attendance.log" ]]; then
-            # Real check: look at the Done line - if not Done, archive
+            
             if ! grep -q "Done. Marked 10 students" "$PROJECT_NAME/reports/attendance.log" 2>/dev/null; then
-                # Check if attendance.log exists but is incomplete
+                
                 if [[ -d "$PROJECT_NAME" ]]; then
-                    # For assignment we archive when Ctrl+C happened
+                    
                     if [[ $PY_STATUS -ne 0 ]] || grep -q "Interrupted" "$PROJECT_NAME/reports/attendance.log" 2>/dev/null; then
                         ARCHIVE="${PROJECT_NAME}_archive.zip"
                         rm -f "$ARCHIVE"
