@@ -12,3 +12,5 @@ run the script
 ./deploy_agent.sh
 Triggering the interupt signal
 When the script is running, you can press ctrl + c or even send the kill signal, and the script will archive the current progress for you
+This is will lead you to the video on how i checked everything
+https://youtu.be/vyypkPGKAg0
